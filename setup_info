@@ -1,3 +1,23 @@
+How is an ORM used in Python:
+
+- SQLAlchemy
+- Flask - sqlalchemy
+- Django has its own ORM
+
+What is an ORM:
+
+- installable code package for OOP languages
+- a communication layer between classes and tables
+
+What does ORM mean?:
+
+- Object Relational Mapper
+  - Classes -> Tables
+  - Class Properties -> Columns
+  - Objects -> Rows
+
+
+
 1. Import Statements:
 
 from sqlalchemy import create_engine

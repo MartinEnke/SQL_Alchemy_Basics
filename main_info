@@ -2,9 +2,10 @@
 
 from setup_database import session, Base, engine
 from models import User
+
+
 from setup_database import session, Base, engine   --> Imports the session, Base,
                                                        and engine objects from the setup_database.py file.
-
 session:
 This is the SQLAlchemy session used to interact with the database.
 
@@ -23,6 +24,7 @@ This class is used to represent the users table in the database.
 2. Creating Tables in the Database:
 
 Base.metadata.create_all(engine)
+
 Base.metadata.create_all(engine):
 This line instructs SQLAlchemy to create all the tables defined by subclasses of Base (like User)
 in the database.

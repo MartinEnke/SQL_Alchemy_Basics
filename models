@@ -2,6 +2,7 @@
 
 from sqlalchemy import Column, Integer, String
 from setup_database import Base
+
 from sqlalchemy import Column, Integer, String:
 
 Column:
@@ -57,6 +58,7 @@ This tells SQLAlchemy that the User class corresponds to the users table, which 
 id = Column(Integer, primary_key=True)
 name = Column(String)
 email = Column(String)
+
 id = Column(Integer, primary_key=True):
 
 This defines a column named id in the users table.
@@ -84,7 +86,7 @@ to create a table in the database (if it doesn't already exist).
 
 The class User will be mapped to the users table with three columns: id, name, and email.
 
-Creating the Table:
+Creating the Table: --> main.py
 If you haven't created the table yet, you can use Base.metadata.create_all(engine)
 to create the users table in the database.
 
