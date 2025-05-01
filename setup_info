@@ -1,0 +1,68 @@
+1. Import Statements:
+
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+These are the necessary imports from SQLAlchemy, 
+which is an Object Relational Mapper (ORM) for Python. 
+SQLAlchemy allows us to interact with a database using Python objects (classes and instances).
+
+create_engine: 
+This is used to configure the connection to the database. 
+The engine handles the actual interaction with the database, including the execution of SQL statements.
+
+declarative_base: 
+This function is used to create a base class from which all database models (tables) will inherit. 
+It’s used to map Python classes to tables in the database.
+
+sessionmaker: 
+This function creates a session factory, 
+which will allow us to interact with the database and manage transactions 
+(i.e., creating, querying, and committing changes to the database).
+
+
+2. Creating the Engine:
+
+engine = create_engine("sqlite:///my_database.db")
+create_engine(): This function creates the connection to the database.
+
+"sqlite:///my_database.db": This is the connection string for SQLite, a lightweight, file-based database. 
+The triple slashes (///) indicate that the database is stored as a file on your local system (my_database.db). 
+If this file doesn't exist, SQLite will create it automatically.
+
+
+3. Creating a Session:
+
+Session = sessionmaker(bind=engine)
+session = Session()
+sessionmaker(): 
+This creates a session factory bound to the engine, 
+meaning all interactions with the database will go through this session.
+
+bind=engine: 
+This binds the session to the previously created engine (my_database.db), 
+meaning this session will be used to interact with the SQLite database.
+
+session = Session(): 
+This initializes the session, allowing you to interact with the database. 
+After this, you can use session to query, add, update, and delete records in the database.
+
+4. Creating the Base Class:
+
+Base = declarative_base()
+declarative_base(): 
+This creates a base class that will be inherited by all of your database models (tables).
+
+This base class is used by SQLAlchemy to create mappings between Python classes and database tables.
+Every class that represents a table in the database will inherit from this Base class.
+For example, if you define a User class for the users table, that class would inherit from Base, and SQLAlchemy will automatically create the users table when you run the code.
+
+Summary:
+create_engine() establishes the connection to the SQLite database (my_database.db).
+sessionmaker() creates a session factory that allows you to interact with the database.
+declarative_base() creates a base class for all tables that you will define in your application.
+
+This is the basic setup that allows you to start creating and interacting with tables 
+in the database through SQLAlchemy. With this setup, you can define Python classes (models) 
+that correspond to your database tables and interact with them via the session.

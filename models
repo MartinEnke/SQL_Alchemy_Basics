@@ -1,0 +1,119 @@
+1. Import Statements:
+
+from sqlalchemy import Column, Integer, String
+from setup_database import Base
+from sqlalchemy import Column, Integer, String:
+
+Column:
+This is used to define columns in a SQLAlchemy model.
+It specifies the type and other attributes of the column in the table.
+
+Integer:
+This is a data type that SQLAlchemy uses to define integer columns.
+
+String:
+This is a data type for defining string columns in SQLAlchemy.
+
+from setup_database import Base:
+
+Base:
+This is the base class from setup_database.py that your model class will inherit from.
+It allows SQLAlchemy to map the class to a table in the database.
+
+The Base class is created using the declarative_base() function in setup_database.py.
+All classes that represent database tables must inherit from Base.
+
+
+2. The User Class:
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String)
+
+class User(Base):
+This defines a class named User that inherits from Base.
+By inheriting from Base, the User class is mapped to a table in the database,
+and each instance of User corresponds to a row in the table.
+
+The User class will represent a table in the database with columns corresponding
+to the attributes defined inside the class.
+
+
+3. __tablename__ Attribute:
+
+__tablename__ = 'users'
+
+__tablename__:
+This special class attribute defines the name of the table that this class will represent in the database.
+In this case, the class User will be mapped to a table named users in the database.
+
+This tells SQLAlchemy that the User class corresponds to the users table, which will hold user-related data.
+
+
+4. Columns Definition:
+
+id = Column(Integer, primary_key=True)
+name = Column(String)
+email = Column(String)
+id = Column(Integer, primary_key=True):
+
+This defines a column named id in the users table.
+The column will store integer values (Integer data type).
+primary_key=True specifies that this column will be the primary key for the table,
+which means it will uniquely identify each row in the users table.
+
+id is typically used as a unique identifier for each user in the table (e.g., a user’s id might be 1, 2, etc.).
+
+name = Column(String):
+This defines a column named name in the users table.
+The column will store string values (String data type).
+This column will store the name of the user (e.g., "David", "Joey").
+
+email = Column(String):
+This defines a column named email in the users table.
+The column will also store string values, specifically the user’s email address.
+
+
+5. Putting it Together:
+
+User Class as a Table:
+When you define the User class as shown above, SQLAlchemy uses it as a template
+to create a table in the database (if it doesn't already exist).
+
+The class User will be mapped to the users table with three columns: id, name, and email.
+
+Creating the Table:
+If you haven't created the table yet, you can use Base.metadata.create_all(engine)
+to create the users table in the database.
+
+SQLAlchemy will automatically generate the necessary SQL statements to create the table
+based on the class definition.
+
+Example of Interacting with the User Table:
+Once you have defined the User class, you can interact with the users table like this:
+
+# Create a new user instance
+new_user = User(name="Joey", email="joey@gmail.com")
+
+# Add the new user to the session
+session.add(new_user)
+
+# Commit the transaction to save the user to the database
+session.commit()
+This code will add a new row to the users table with the name "Joey" and the email "joey@gmail.com".
+
+Summary:
+User class:
+This class represents a table in the database.
+
+Base:
+The User class inherits from Base, allowing SQLAlchemy to map it to a database table.
+
+__tablename__:
+Specifies the table name in the database (users).
+
+Columns:
+id, name, and email are columns in the users table,
+each defined using Column with specific data types (Integer, String).

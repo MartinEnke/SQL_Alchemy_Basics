@@ -1,0 +1,151 @@
+1. Import Statements:
+
+from setup_database import session, Base, engine
+from models import User
+from setup_database import session, Base, engine   --> Imports the session, Base,
+                                                       and engine objects from the setup_database.py file.
+
+session:
+This is the SQLAlchemy session used to interact with the database.
+
+Base:
+This is the base class that all database models (like User) inherit from,
+allowing them to be mapped to database tables.
+
+engine:
+This represents the connection to the database, used for interacting with the underlying database engine.
+
+from models import User:
+Imports the User class from the models.py file.
+This class is used to represent the users table in the database.
+
+
+2. Creating Tables in the Database:
+
+Base.metadata.create_all(engine)
+Base.metadata.create_all(engine):
+This line instructs SQLAlchemy to create all the tables defined by subclasses of Base (like User)
+in the database.
+
+The engine object is the connection to the SQLite database,
+and create_all() will create the necessary tables if they don't already exist.
+
+
+3. Function to Add a User:
+
+def add_user(name, email):
+    new_user = User(name=name, email=email)
+
+    session.add(new_user)
+    session.commit()  # save
+    print("User added")
+
+add_user(name, email):
+This function adds a new user to the users table.
+It creates a new instance of the User class with the provided name and email.
+
+session.add(new_user):
+Adds the new user to the current session, meaning SQLAlchemy will track it.
+
+session.commit():
+Commits the transaction, meaning the new user is saved to the database permanently.
+
+The function then prints "User added" to indicate that the operation was successful.
+
+
+4. Function to Delete a User:
+
+def delete_user(id):
+    # Query the user by id
+    user_to_delete = session.query(User).filter_by(id=id).one()  # Fetch the user by id
+
+    if user_to_delete:
+        session.delete(user_to_delete)  # Delete the fetched user
+        session.commit()  # Commit the transaction
+        print("User deleted")
+    else:
+        print(f"User with id {id} not found")
+
+delete_user(id):
+This function deletes a user from the users table based on the provided id.
+
+session.query(User).filter_by(id=id).one() / .first():
+Fetches the user with the specified id.
+
+session.delete(user_to_delete):
+Marks the user_to_delete for deletion.
+
+session.commit():
+Commits the transaction to delete the user from the database.
+
+If no user is found with the given id, it prints "User with id {id} not found".
+
+
+5. Function to Update a User:
+
+def update_user(name, new_email):
+    user_to_update = session.query(User).filter_by(name=name).first()
+
+    if user_to_update:
+        user_to_update.email = new_email
+        session.commit()  # save
+        print(f"User {user_to_update.name}'s email updated to {new_email}")
+
+update_user(name, new_email):
+This function updates the email of a user based on the provided name.
+
+session.query(User).filter_by(name=name).first():
+Fetches the first user that matches the provided name.
+If the user is found, it updates the email field with the new value (new_email).
+
+session.commit():
+Saves the updated user to the database.
+
+It prints the message "User {user_to_update.name}'s email updated to {new_email}" to confirm the update.
+
+6. Function to Show All Users:
+
+def show_all_users():
+    users = session.query(User).all()
+    if users:
+        for user in users:
+            print(f"User {user.id}: {user.name}, {user.email}")
+    else:
+        print("No users found")
+
+show_all_users():
+This function queries all users in the users table and prints their information.
+
+session.query(User).all():
+Fetches all users in the users table and returns them as a list of User objects.
+
+If there are users, it iterates through the list and prints the id, name, and email of each user.
+
+If no users are found, it prints "No users found".
+
+
+7. Main Operations (Currently Commented Out):
+
+# add_user("Joey", "joey@gmail.com")
+# delete_user(2)
+update_user("David", "david@gmail.com")
+
+add_user("Joey", "joey@gmail.com"):
+This line would add a new user with the name "Joey" and email "joey@gmail.com". (Currently commented out)
+
+delete_user(2):
+This line would delete the user with id=2. (Currently commented out)
+
+update_user("David", "david@gmail.com"):
+This line updates the email of the user with the name "David" to "david@gmail.com".
+
+show_all_users()
+show_all_users(): Displays all users in the database.
+
+Summary:
+The code allows you to add, delete, update, and display users in the database using SQLAlchemy ORM.
+The functions interact with the User model, which is mapped to the users table in the database.
+The session object is used to perform database operations, and commit() ensures
+that changes are saved to the database.
+
+The code demonstrates basic CRUD (Create, Read, Update, Delete) operations.
