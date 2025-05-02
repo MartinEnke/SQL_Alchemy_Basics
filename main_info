@@ -103,7 +103,57 @@ If the user is found, it updates the email field with the new value (new_email).
 session.commit():
 Saves the updated user to the database.
 
+
+The reason why you don’t need to explicitly use session.add() when updating an existing record
+(like in update_rest()) is due to the way SQLAlchemy's ORM (Object Relational Mapper)
+works with session tracking.
+
+Here's the explanation:
+Session and Object Tracking:
+
+SQLAlchemy automatically tracks objects that are queried and returned from the database.
+This means that when you fetch an object (e.g., new_data in update_rest()),
+SQLAlchemy already knows that this object is tied to an existing record in the database.
+
+When you modify a property of that object (e.g., new_data.famous_dish = famous_dish),
+SQLAlchemy knows that you are modifying an already existing record and will handle it during
+the commit operation.
+
+Adding New Data:
+
+session.add(new_rest) is used when you're inserting new data into the database.
+You need to explicitly tell SQLAlchemy to track the new object (new_rest) by using session.add()
+because SQLAlchemy doesn't know about this object until you add it to the session.
+The session will then handle the insertion when you call session.commit().
+
+Updating Existing Data:
+
+In the update_rest() function, after fetching the object
+with session.query(Restaurants).filter_by(name=name).first(),
+the object is already tracked by the session because it was retrieved from the database.
+
+When you change the attribute (new_data.famous_dish = famous_dish), SQLAlchemy automatically knows
+that this object is being modified and will update the record in the database when you commit the session.
+No need to explicitly call session.add() in this case.
+
+SQLAlchemy only requires session.add() when you're creating new objects or new records,
+because it needs to know about these objects for insertion.
+But once an object is retrieved from the database (via a query),
+SQLAlchemy starts tracking it automatically.
+
+
+Commit:
+
+After you modify the famous_dish attribute in update_rest(), when you call session.commit(),
+SQLAlchemy will flush the changes to the database (i.e., it will generate an UPDATE SQL statement
+to modify the existing record).
+
+If you hadn't modified the object (if you had just queried it without making changes),
+SQLAlchemy wouldn't perform any action during the commit.
+
 It prints the message "User {user_to_update.name}'s email updated to {new_email}" to confirm the update.
+
+
 
 6. Function to Show All Users:
 
